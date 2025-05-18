@@ -1,7 +1,7 @@
 import axios from "axios";
 const token = localStorage.getItem("token")
 const api = axios.create({
-    baseURL : "http://192.168.0.107:4000",
+    baseURL : "https://dokan-server.onrender.com",
     headers : {
         token : token ? token : null
     }
