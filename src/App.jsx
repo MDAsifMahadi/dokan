@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import LoginOrsinup from './pages/LoginOrsinup'
+import LoginOrsinup from './pages/LoginOrSinup'
 import Home from './pages/Home'
 import Detail from './pages/Detail'
 import CreateDetail from './components/CreateDetail'

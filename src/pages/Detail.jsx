@@ -6,6 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import { useEffect, useContext, useState } from "react";
 import MassContext from "../contexts/MessContext";
 import { FiLoader } from "react-icons/fi";
+import { LuCopyCheck } from "react-icons/lu";
 
 const Detail = () => {
     const {id} = useParams();
@@ -13,6 +14,7 @@ const Detail = () => {
     const [data, setData] = useState({});
     const [isLoading, setIsLoding] = useState(false);
     const toast = useContext(MassContext);
+
 
     useEffect(()=> {
         (async () => {
@@ -65,7 +67,16 @@ const Detail = () => {
                 </div>
                 <div className="mt-5 p-7">
                     <h2 className="text-2xl font-black mb-5">Additional Information</h2>
-                    <p className="text-justify">{data.additionalInfo}</p>
+                    {
+                        data.additionalInfo?.map(e => <div key={Math.random()} 
+                            className="bg-gray-100 p-3 rounded-xl mb-4 relative"
+                        >
+                            <Copy e={e}/>
+                            <p 
+                                className="mt-3"
+                            >{e}</p>
+                        </div>)
+                    }
                 </div>
             </section>
         </div>
@@ -73,4 +84,50 @@ const Detail = () => {
   )
 }
 
+
+const Copy = ({ e }) => {
+  const [copy, setCopy] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(e);
+      } else {
+        // Fallback method
+        const textarea = document.createElement("textarea");
+        textarea.value = e;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "absolute";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+      }
+
+      setCopy(true);
+      setTimeout(() => setCopy(false), 2000);
+    } catch (err) {
+      alert("কপি করা সম্ভব হয়নি: " + err.message);
+    }
+  };
+
+  return (
+    <>
+      {copy ? (
+        <span className="p-2 h-10 w-20 bg-gray-300/60 absolute top-1 right-2 rounded-xl text-center text-sm flex items-center justify-center">
+          ✅ Copied
+        </span>
+      ) : (
+        <button
+          onClick={handleCopy}
+          onTouchStart={handleCopy} // mobile support
+          className="p-2 h-10 w-10 bg-gray-300/60 absolute top-1 right-2 rounded-xl flex items-center justify-center hover:bg-gray-200 focus:bg-gray-200"
+        >
+          <LuCopyCheck className="text-2xl" />
+        </button>
+      )}
+    </>
+  );
+};
 export default Detail

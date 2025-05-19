@@ -12,10 +12,28 @@ import uploadImg from "../assets/loading.gif";
 const CreateDetail = () => {
     const [title, setTitle] = useState("");
     const [productDetails, setProductDetails] = useState("");
-    const [additionalInfo, setAdditionalInfo] = useState("");
+    
     const [imgInfo, setImgInfo] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isUpload, setIsUpload] = useState(false);
+
+    const [info, setInfo] = useState("");
+    const [additionalInfo, setAdditionalInfo] = useState([]);
+
+    const addIntoInfo = () => {
+        if (info) {
+            setAdditionalInfo([...additionalInfo, info]);
+            setInfo("");
+            return;
+        }
+        alert("Please, Write something.");
+    }
+
+    // todo make removeInfo function whith will delete the infos from the array.
+    const removeFromInfo = (e) => {
+        const filtered = additionalInfo.filter(i => i !== e);
+        setAdditionalInfo(filtered);
+    }
 
     const updateImgInfo = (public_id) => {
         const imgList = imgInfo.filter(img => img.public_id !== public_id);
@@ -41,24 +59,30 @@ const CreateDetail = () => {
     };
 
     const handleSave = async () => {
-        setIsLoading(true);
-        const data = {
-            title,
-            productDetails,
-            additionalInfo,
-            imgInfo
+       if(info.length > 0) {
+        if(confirm("Don't you add the written text ?")) {
+            setIsLoading(true);
+            const data = {
+                title,
+                productDetails,
+                additionalInfo,
+                imgInfo
+            }
+            try {
+                const res = await api.post("/api/createproduct", data);
+                toast.success(res.data.message);
+                setIsLoading(false);
+                navigate("/");
+            } catch (error) {
+                setIsLoading(false);
+                toast.error(error.response.data.message);
+            } finally {
+                setIsLoading(false);
+            }
         }
-        try {
-            const res = await api.post("/api/createproduct", data);
-            toast.success(res.data.message);
-            setIsLoading(false);
-            navigate("/");
-        } catch (error) {
-            setIsLoading(false);
-            toast.error(error.response.data.message);
-        } finally {
-            setIsLoading(false);
-        }
+        return
+       }
+        
     };
 
 
@@ -73,6 +97,8 @@ const CreateDetail = () => {
 
         }
     }
+
+
 
   return (
     <div className='w-full h-screen bg-gray-200 flex items-center justify-center flex-col'>
@@ -165,11 +191,27 @@ const CreateDetail = () => {
                 </div>
                 <div className="mt-5 p-7">
                     <h2 className="text-2xl font-black mb-5">Additional Information</h2>
-                    <textarea 
-                        className="w-full min-h-60 border border-black-300 p-2 rounded-xl"
-                        onChange={e => setAdditionalInfo(e.target.value)}
-                        value={additionalInfo}
-                    ></textarea>
+
+                    <div className="mb-3">
+                            <textarea 
+                                className="w-full min-h-30 border border-black-300 p-2 rounded-xl"
+                                onChange={e => setInfo(e.target.value)}
+                                value={info}
+                            ></textarea>
+                            <button className="bg-sky-500 py-2 px-4 text-white rounded-xl mr-auto" onClick={addIntoInfo} id="add_btn">Add</button>
+                        </div>
+                    
+                    {
+                        additionalInfo.map((e) => {
+                            return <div key={Math.random()} className="w-full p-3 bg-gray-100 rounded-md m-3 relative">
+                        <p className="text-justify p-3 mt-2">{e}</p>
+                        
+                        <button onClick={() => removeFromInfo(e)} className="text-3xl absolute top-1 right-2 bg-[#E55050] rounded-xl text-[#E7F2E4]">
+                                    <MdDeleteOutline />
+                        </button>
+                    </div>
+                        })
+                    }
                 </div>
             </section>
         </div>
