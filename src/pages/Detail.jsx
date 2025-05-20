@@ -7,6 +7,7 @@ import { useEffect, useContext, useState } from "react";
 import MassContext from "../contexts/MessContext";
 import { FiLoader } from "react-icons/fi";
 import { LuCopyCheck } from "react-icons/lu";
+import { parseUserText } from "../utility/parseUserText";
 
 const Detail = () => {
     const {id} = useParams();
@@ -62,7 +63,10 @@ const Detail = () => {
                     <DynamicImageGrid images={images}/>
                     <div className="flex-1/2 p-5 md:p-10 overflow-y-auto">
                         <h2 className="text-2xl font-black mb-5">Product Details</h2>
-                        <p className="text-justify max-w-[480px]">{data.productDetails}</p>
+                         <div
+                            className="prose max-w-none"
+                              dangerouslySetInnerHTML={{ __html: parseUserText(data.productDetails) }}
+                          />
                     </div>
                 </div>
                 <div className="mt-5 p-7">

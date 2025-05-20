@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import { parseUserText } from "../utility/parseUserText"
 const Card = ({data, i}) => {
 
   return (
@@ -13,7 +14,10 @@ const Card = ({data, i}) => {
       </div>
       <div className="p-5">
         <h1 className="text-xl font-bold">{data.title}</h1>
-        <p>{data.productDetails.slice(0, 120)}</p>
+        <div
+          className="prose max-w-none"
+          dangerouslySetInnerHTML={{ __html: parseUserText(data.productDetails.slice(0, 120)) }}
+        />
       </div>
     </Link>
   )
