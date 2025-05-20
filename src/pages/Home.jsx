@@ -1,7 +1,7 @@
 import Card from '../components/Card'
 import { FaPlus} from "react-icons/fa6";
 import icon from "../assets/dokan.png";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import api from "../utility/api";
 import MessContext from "../contexts/MessContext";
@@ -12,7 +12,7 @@ const Home = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoding] = useState(false);
   const toast = useContext(MessContext);
-  const navigate = useNavigate();
+
 
   useEffect(()=> {
     (async () => {
@@ -28,10 +28,6 @@ const Home = () => {
     })()
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login")
-  }
 
   return (
     <div className='w-full h-screen bg-gray-200 flex items-center justify-center flex-col relative'>
@@ -56,7 +52,6 @@ const Home = () => {
           })
         }
       </div>
-      <button className='absolute bottom-0 left-4 p-2 bg-sky-500 text-white rounded-xl hover:bg-sky-400 cursor-pointer' onClick={handleLogout} >Logout</button>
     </div>
   )
 }

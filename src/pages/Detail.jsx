@@ -115,14 +115,14 @@ const Copy = ({ e }) => {
   return (
     <>
       {copy ? (
-        <span className="p-2 h-10 w-20 bg-gray-300/60 absolute top-1 right-2 rounded-xl text-center text-sm flex items-center justify-center">
-          ✅ Copied
+        <span className="p-2 h-10 w-20 bg-gray-300/60 absolute top-1 right-2 rounded-xl text-center text-sm flex items-center justify-center cursor-pointer">
+          Copied
         </span>
       ) : (
         <button
           onClick={handleCopy}
           onTouchStart={handleCopy} // mobile support
-          className="p-2 h-10 w-10 bg-gray-300/60 absolute top-1 right-2 rounded-xl flex items-center justify-center hover:bg-gray-200 focus:bg-gray-200"
+          className="p-2 h-10 w-10 bg-gray-300/60 absolute top-1 right-2 rounded-xl flex items-center justify-center hover:bg-gray-200 focus:bg-gray-200 cursor-pointer"
         >
           <LuCopyCheck className="text-2xl" />
         </button>

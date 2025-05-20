@@ -59,31 +59,28 @@ const CreateDetail = () => {
     };
 
     const handleSave = async () => {
-       if(info.length > 0) {
-        if(confirm("Don't you add the written text ?")) {
-            setIsLoading(true);
-            const data = {
-                title,
-                productDetails,
-                additionalInfo,
-                imgInfo
-            }
-            try {
-                const res = await api.post("/api/createproduct", data);
-                toast.success(res.data.message);
-                setIsLoading(false);
-                navigate("/");
-            } catch (error) {
-                setIsLoading(false);
-                toast.error(error.response.data.message);
-            } finally {
-                setIsLoading(false);
-            }
+       
+        setIsLoading(true);
+        const data = {
+            title,
+            productDetails,
+            additionalInfo,
+            imgInfo
         }
-        return
-       }
-        
-    };
+        try {
+            const res = await api.post("/api/createproduct", data);
+            toast.success(res.data.message);
+            setIsLoading(false);
+            navigate("/");
+        } catch (error) {
+            setIsLoading(false);
+            toast.error(error.response.data.message);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+       
+  
 
 
     const handleDeleteImage = async (e) => {

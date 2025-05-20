@@ -89,7 +89,7 @@ const LoginOrsinup = ({isLogin}) => {
                 </div>
 
                  <input
-                    className="px-6 mt-3 py-2 w-full border border-[#3B9DF8] bg-[#3B9DF8] text-primary text-[#fff]  transition duration-300 rounded text-xl font-bold cursor-pointer" type="submit" value="Login" />
+                    className="px-6 mt-3 py-2 w-full border border-[#3B9DF8] bg-[#3B9DF8] text-primary text-[#fff]  transition duration-300 rounded text-xl font-bold cursor-pointer focus:ring-1 ring-offset-2 ring-sky-800" type="submit" value="Login" />
                 
                 
                 <p className="text-[#064d8f] text-center"><BsInfoCircle className="inline w-8"/>If you forget your password, please contact your client.</p>
