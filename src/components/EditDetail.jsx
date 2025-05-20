@@ -59,7 +59,6 @@ const EditDetail = () => {
         })()
     }, [id]);
 
-    console.log(additionalInfo);
     const handleUploadImage = () => {
         document.getElementById("image_input").click();
     };

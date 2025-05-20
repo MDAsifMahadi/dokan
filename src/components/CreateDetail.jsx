@@ -88,8 +88,8 @@ const CreateDetail = () => {
             try {
                 await api.delete(`/api/imgdeleter/${e.public_id}`);
                 updateImgInfo(e.public_id);
-            } catch (error) {
-                console.log(error)
+            } catch {
+                console.log("There was an errer.")
             }
 
         }
