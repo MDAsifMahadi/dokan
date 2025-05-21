@@ -2,37 +2,18 @@ import Card from '../components/Card'
 import { FaPlus} from "react-icons/fa6";
 import icon from "../assets/dokan.png";
 import { Link } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
-import api from "../utility/api";
-import MessContext from "../contexts/MessContext";
+
 import { FiLoader } from 'react-icons/fi';
+import { useContext } from 'react';
+import DataContext from '../contexts/DataContext';
 
 const Home = () => {
+  const dataContext = useContext(DataContext);
 
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoding] = useState(false);
-  const toast = useContext(MessContext);
-
-
-  useEffect(()=> {
-    (async () => {
-      try {
-        setIsLoding(true);
-        const res = await api.get("/api/getproduct");
-        setData(res.data.data);
-        setIsLoding(false);
-      } catch (error) {
-        setIsLoding(false);
-        toast.error(error.response.data?.message);
-      }
-    })()
-  }, []);
-
-
-  return (
+ return (
     <div className='w-full h-screen bg-gray-200 flex items-center justify-center flex-col relative'>
       {
-        isLoading && <FiLoader className="text-[2.8rem] animate-spin text-[#3B9DF8] fixed z-30" />
+        dataContext.isHimeLoading && <FiLoader className="text-[2.8rem] animate-spin text-[#3B9DF8] fixed z-30" />
       }
         <div className='w-full px-[4%] h-16 flex justify-between items-center'>
             
@@ -47,7 +28,7 @@ const Home = () => {
         </div>
       <div className='w-[95%] h-[95%] bg-gray-100 rounded-2xl p-5 overflow-y-auto flex justify-center flex-wrap gap-5'>
         {
-          data.map((e, i) => {
+          dataContext.data.map((e, i) => {
             return <Card data={e} key={e._id} i={i} />
           })
         }

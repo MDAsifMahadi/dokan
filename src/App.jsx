@@ -9,11 +9,15 @@ import MassContext from './contexts/MessContext';
 import { ToastContainer, toast } from 'react-toastify'
 import api from './utility/api'
 import Loading from './utility/Loading'
-import EditDetail from './components/EditDetail'
+import EditDetail from './components/EditDetail';
+import DataContext from './contexts/DataContext'
 
 const App = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  const [data, setData] = useState([]);
+  const [isHimeLoading, setIsHomeLoding] = useState(false);
 
   useEffect(() => {
     (async()=> {
@@ -28,7 +32,23 @@ const App = () => {
         setIsLoading(false);
       }
     })()
-  }, [])
+  }, []);
+
+
+  useEffect(()=> {
+    (async () => {
+      try {
+        setIsHomeLoding(true);
+        const res = await api.get("/api/getproduct");
+        setData(res.data.data);
+        setIsHomeLoding(false);
+      } catch (error) {
+        setIsHomeLoding(false);
+        toast.error(error.response.data?.message);
+      }
+    })()
+  }, []);
+
 
   if(isLoading) {
     return <Loading />
@@ -38,6 +58,7 @@ const App = () => {
     <>
       <BrowserRouter>
         <MassContext.Provider value={toast}>
+        <DataContext.Provider value={{data, isHimeLoading}}>
           <Routes>
             <Route path='/login' element={<LoginOrsinup isLogin={isLogin} />}/>
             <Route path='/' element={<Proceted ><Home /></Proceted>}/>
@@ -46,6 +67,7 @@ const App = () => {
             <Route path='/edit/:id' element={<Proceted><EditDetail /></Proceted>}/>
           </Routes>
           <ToastContainer />
+        </DataContext.Provider>
         </MassContext.Provider>
       </BrowserRouter>
     
