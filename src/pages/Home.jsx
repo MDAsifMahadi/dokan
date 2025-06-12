@@ -7,6 +7,7 @@ import { FiLoader } from 'react-icons/fi';
 import { useContext } from 'react';
 import DataContext from '../contexts/DataContext';
 
+
 const Home = () => {
   const dataContext = useContext(DataContext);
 

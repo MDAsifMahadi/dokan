@@ -11,6 +11,8 @@ import api from './utility/api'
 import Loading from './utility/Loading'
 import EditDetail from './components/EditDetail';
 import DataContext from './contexts/DataContext'
+import Message from "./components/Message";
+import socket from './utility/socket'
 
 const App = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -50,6 +52,17 @@ const App = () => {
   }, []);
 
 
+  const [messages, setMessages] = useState([]);
+  useEffect(()=> {
+    socket.on("allMessage", (messages) => {
+      setMessages(messages);
+    })
+    socket.on("authenticationFailed", data => {
+      toast.error(data.messages);
+    })
+  },[])
+
+
   if(isLoading) {
     return <Loading />
   }
@@ -67,6 +80,7 @@ const App = () => {
             <Route path='/edit/:id' element={<Proceted><EditDetail /></Proceted>}/>
           </Routes>
           <ToastContainer />
+          {isLogin && <Message messages={messages} setMessages={setMessages} />}
         </DataContext.Provider>
         </MassContext.Provider>
       </BrowserRouter>

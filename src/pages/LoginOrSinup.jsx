@@ -6,7 +6,6 @@ import api from "../utility/api";
 import MassContext from "../contexts/MessContext";
 import { Navigate, useNavigate } from "react-router-dom";
 
-
 const LoginOrsinup = ({isLogin}) => {
     const toast = useContext(MassContext);
     const navigate = useNavigate();
@@ -30,6 +29,8 @@ const LoginOrsinup = ({isLogin}) => {
             toast.error(error.response.data.message);
         }
     }
+
+
 
     if(isLogin) {
         return <Navigate to="/" replace />
